@@ -2,7 +2,8 @@ Instructions:
 
     goto directory where requirements.txt resides
     1. run pip install -r requirements.txt
-    2. run python manage.py runserver
+    2. create .env file and set parameters shown in sample.env
+    3. run python manage.py runserver
     
 
 postman collection for api testing
