@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions
 from rest_framework.generics import GenericAPIView, CreateAPIView, ListAPIView
 
-from .serializers import AuthorSerializer, BookCatalogSerializer, CategorySerializer
+from .serializers import AuthorSerializer, BookCatalogSerializer, CategorySerializer, AuthorNameSerializer
 from .models import Category, Author, BookCatalog
 from django.db.models import Q
 
@@ -12,6 +12,12 @@ from django.db.models import Q
 class AuthorAPI(CreateAPIView, ListAPIView):
     permission_classes = (permissions.AllowAny,)
     serializer_class = AuthorSerializer
+    queryset = Author.objects.all()
+
+
+class AuthorNamesAPI(ListAPIView):
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = AuthorNameSerializer
     queryset = Author.objects.all()
 
 
@@ -31,7 +37,7 @@ class GetMostBookSoldByAuthorAPI(ListAPIView):
     serializer_class = BookCatalogSerializer
 
     def get_queryset(self):
-        qs = BookCatalog.objects.filter(author__name=self.request.query_params.get('author_name')).order_by('sold_count')
+        qs = BookCatalog.objects.filter(author__name=self.request.query_params.get('author_name')).order_by('-sold_count')
         return qs[:1]
 
 
@@ -40,7 +46,7 @@ class GetMostBookSoldByCategoryAPI(ListAPIView):
     serializer_class = BookCatalogSerializer
 
     def get_queryset(self):
-        qs = BookCatalog.objects.filter(category__name=self.request.query_params.get('category_name')).order_by('sold_count')
+        qs = BookCatalog.objects.filter(category__name=self.request.query_params.get('category_name')).order_by('-sold_count')
         return qs[:1]
 
 

@@ -6,11 +6,12 @@ class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
         fields = '__all__'
-        extra_kwargs = {
-            'phone_number': {'write_only': True},
-            'date_of_birth': {'write_only': True},
-            'date_of_death': {'write_only': True}
-        }
+
+
+class AuthorNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = ('name', )
 
 
 class BookCatalogSerializer(serializers.ModelSerializer):
